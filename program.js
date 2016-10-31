@@ -12,7 +12,7 @@ function generateShortUrl() {
 
 server.get('/:shortUrl', function(req, res) {
   var url = req.params.shortUrl;
-  var fullShortUrl = 'https://url-shortener-captain-clark.c9users.io/' + url;
+  var fullShortUrl = 'https://miniurl.herokuapp.com/' + url;
   mongoClient.connect(dbUrl, function(err, db) {
     if(err) throw err;
     
