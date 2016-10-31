@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+  integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi"
+  crossorigin="anonymous">
+  <link rel='stylesheet' href='styles.css'>
+  <title>URL shortener</title>
+</head>
+<body>
+ <div class="container-fluid">
+   
+    <h1 class="header">URL Shortener</h1>
+    <blockquote>
+      <p>User stories:</p>
+      <ul>
+        <li>I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.</ul>
+      </li>
+      <li>When I visit that shortened URL, it will redirect me to my original link.</ul>
+      </li>
+      </ul>
+    </blockquote>
+    <h3>Example creation usage:</h3><code>https://little-url.herokuapp.com/new/https://www.google.com</code><br/><code>https://little-url.herokuapp.com/new/http://foo.com:80</code>
+    <h3>Example creation output</h3><code>{
+  "original_url":"http://foo.com:80",
+  "short_url":"https://little-url.herokuapp.com/8170"
+}</code>
+    <h3>Usage:</h3><code>https://little-url.herokuapp.com/2871</code>
+    <h3>Will redirect to:</h3><code>https://www.google.com/</code></div>
+</body>
+</html>
+
+
