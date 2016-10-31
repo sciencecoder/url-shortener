@@ -37,7 +37,7 @@ server.get('/new/*', function(req, res) {
   
     db.collection('urldb').insertOne({
       original_url: url, 
-      short_url: 'https://url-shortener-captain-clark.c9users.io/' + generateShortUrl()
+      short_url: 'https://miniurl.herokuapp.com/' + generateShortUrl()
     }, function(err, response) {
       if(err) throw err;
       res.send(response.ops[0]);
