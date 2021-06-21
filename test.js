@@ -5,7 +5,7 @@ const mongoDB = require('mongodb')
 var server = express();
 
 
-MongoClient.connect('mongodb+srv://adam:admin@cluster0.vvlhg.mongodb.net/urldb?retryWrites=true&w=majority', {
+MongoClient.connect(process.env.db_url, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })
