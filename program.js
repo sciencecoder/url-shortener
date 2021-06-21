@@ -3,7 +3,7 @@ const express = require('express');
 const {MongoClient} = require('mongodb');
 const server = express();
 
-var dbUrl = 'mongodb+srv://adam:admin@cluster0.vvlhg.mongodb.net/urldb?retryWrites=true&w=majority';
+var dbUrl = process.env.db_url;
 var reg1 = /\w{4,5}:\/\/\w+.\w+/;
 
 server.use(express.static('view'));
