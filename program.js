@@ -1,9 +1,11 @@
-var express = require('express');
-var mongoClient = require('mongodb').MongoClient;
-var server = express();
-var dbUrl = 'mongodb://adam:admin@ds139277.mlab.com:39277/urldb';
+require('dotenv').config();
+const express = require('express');
+const {MongoClient} = require('mongodb');
+const server = express();
+
+var dbUrl = 'mongodb+srv://adam:admin@cluster0.vvlhg.mongodb.net/urldb?retryWrites=true&w=majority';
 var reg1 = /\w{4,5}:\/\/\w+.\w+/;
-server.listen(process.env.PORT, process.env.IP);
+
 server.use(express.static('view'));
 
 function generateShortUrl() {
@@ -65,3 +67,9 @@ server.get('/new/*', function(req, res) {
  }
   
 });
+
+server.listen((process.env.PORT || 3000), process.env.IP, function(err, res){
+  if (err) console.log("Error in server setup")
+  console.log("Server listening on Port", process.env.PORT);
+});
+console.log('programm.js file ran successfully')
