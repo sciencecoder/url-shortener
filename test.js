@@ -16,7 +16,7 @@ MongoClient.connect('mongodb+srv://adam:admin@cluster0.vvlhg.mongodb.net/urldb?r
     return client
     .db()
     .collection('urldb')
-    .findOne(query, {});;
+    .findOne(query, {});
   }).then(doc => {
     console.log(doc);
   })

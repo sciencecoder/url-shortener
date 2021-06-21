@@ -4,7 +4,8 @@ var { MongoClient, ObjectID } = require('mongodb');
 var server = express();
 
 var dbUri =
-  'mongodb+srv://adam:admin@cluster0.vvlhg.mongodb.net/short_urls?retryWrites=true&w=majority';
+  'mongodb+srv://adam:admin@cluster0.vvlhg.mongodb.net/urldb?retryWrites=true&w=majority';
+
 var reg1 = /\w{4,5}:\/\/\w+.\w+/;
 
 server.use(express.static('view'));
@@ -29,21 +30,16 @@ async function addDocument(baseURL, url, client) {
 }
 async function findDocument(query, client) {
   //refactor: instead of passing url, pass full query object
-  
+
   const options = { original_url: 1, short_url: 1, _id: 0 };
   var doc;
   try {
-    doc = await client
-      .db()
-      .collection('urldb')
-      .findOne(query, options)
-      
-     
+    doc = await client.db().collection('urldb').findOne(query, options);
   } catch (e) {
     console.error(e);
   } finally {
-    console.log('line 45 at findDocument finally', doc)
-    return doc
+    console.log('line 45 at findDocument finally', doc);
+    return doc;
   }
 }
 
@@ -53,26 +49,19 @@ server.get('/new/*', function (req, res) {
   const baseURL = 'http://' + req.headers.host + '/';
 
   if (reg1.test(originalUrl)) {
-    MongoClient.connect(
-      'mongodb+srv://adam:admin@cluster0.vvlhg.mongodb.net/urldb?retryWrites=true&w=majority',
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    )
+    MongoClient.connect(dbUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
       .then((client) => {
-        findDocument({original_url: originalUrl}, client).then((doc) => {
+        findDocument({ original_url: originalUrl }, client).then((doc) => {
           if (doc) {
-          
             res.send(doc);
-            
           } else {
             //maybe refactor to pass  monogdb formatted document rather than just values
             addDocument(baseURL, originalUrl, client).then((docRes) => {
-             
               res.send(docRes.ops[0]);
             });
-            
           }
         });
       })
@@ -87,33 +76,22 @@ server.get('/:shortUrl', function (req, res) {
   const baseUrl = 'http://' + req.headers.host + '/';
   const fullShortUrl = baseUrl + shortUrl;
 
+  //Longest unslove bug: 4 hours. I didn't know dbUri was pointing to wrong database /short_urls rather than the correct /urldb that's why All my find queries returned null
+  //Oh what time I have wasted for lack of care. looking at each and every variable led me the hard and long way.
+
   MongoClient.connect(dbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  }).then( (client) => {
-    
-    return client.db()
-      .collection('urldb') 
-      .findOne({short_url: 'http://localhost:3000/373'}, {})
-       
-      
-// findDocument({short_url: fullShortUrl}, client).then((doc) => {
-
-//       console.log('line 92 @ findDocument', doc);
-//       if(Boolean(doc)) {
-//         res.send(doc)
-//         //res.redirect(doc.original_url);
-//       }
-//       else {
-//         res.send(`could not find data for ${fullShortUrl}`)
-//       }
-//     }).catch((err) => console.log(err));
-  })
-  .then((docRes) => {
-    console.log('line 113', docRes)
-    
-  })
-  .catch((err) => console.error(err)); 
+  }).then((client) => {
+    findDocument({ short_url: fullShortUrl }, client).then((doc) => {
+      if (doc) {
+        res.redirect(doc.original_url);
+      } else {
+        res.status(404);
+        res.end('resource not found');
+      }
+    });
+  });
 });
 server.listen(process.env.PORT || 3000, process.env.IP, function (err, res) {
   if (err) console.log('Error in server setup');
