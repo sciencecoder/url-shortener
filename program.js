@@ -6,10 +6,7 @@ var server = express();
 var dbUri =
   process.env.DATABASE_URL;
 
-<<<<<<< HEAD
-=======
 var dbUrl = process.env.db_url;
->>>>>>> 0723c8fb2f02315b652b78f9f880342de70e6fce
 var reg1 = /\w{4,5}:\/\/\w+.\w+/;
 
 server.use(express.static('view'));

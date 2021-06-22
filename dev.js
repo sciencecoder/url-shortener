@@ -4,7 +4,7 @@ var { MongoClient, ObjectID } = require('mongodb');
 var server = express();
 
 var dbUri =
-  process.env.db_url;
+  process.env.DATABASE_URL;
 
 var reg1 = /\w{4,5}:\/\/\w+.\w+/;
 
