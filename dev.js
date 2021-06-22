@@ -4,12 +4,8 @@ var { MongoClient, ObjectID } = require('mongodb');
 var server = express();
 
 var dbUri =
-  process.env.DATABASE_URL;
+  process.env.db_url;
 
-<<<<<<< HEAD
-=======
-var dbUrl = process.env.db_url;
->>>>>>> 0723c8fb2f02315b652b78f9f880342de70e6fce
 var reg1 = /\w{4,5}:\/\/\w+.\w+/;
 
 server.use(express.static('view'));
@@ -33,6 +29,7 @@ async function addDocument(baseURL, url, client) {
   }
 }
 async function findDocument(query, client) {
+  //refactor: instead of passing url, pass full query object
 
   const options = { original_url: 1, short_url: 1, _id: 0 };
   var doc;
@@ -96,18 +93,8 @@ server.get('/:shortUrl', function (req, res) {
     });
   });
 });
-
 server.listen(process.env.PORT || 3000, process.env.IP, function (err, res) {
   if (err) console.log('Error in server setup');
   console.log('Server listening on Port', process.env.PORT);
 });
-
-<<<<<<< HEAD
 console.log('dev.js file ran successfully');
-=======
-server.listen((process.env.PORT || 3000), process.env.IP, function(err, res){
-  if (err) console.log("Error in server setup")
-  console.log("Server listening on Port", process.env.PORT);
-});
-console.log('programm.js file ran successfully')
->>>>>>> 0723c8fb2f02315b652b78f9f880342de70e6fce
