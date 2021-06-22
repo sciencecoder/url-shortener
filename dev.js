@@ -4,7 +4,7 @@ var { MongoClient, ObjectID } = require('mongodb');
 var server = express();
 
 var dbUri =
-  'mongodb+srv://adam:admin@cluster0.vvlhg.mongodb.net/urldb?retryWrites=true&w=majority';
+  process.env.DATABASE_URL;
 
 var reg1 = /\w{4,5}:\/\/\w+.\w+/;
 
@@ -29,7 +29,6 @@ async function addDocument(baseURL, url, client) {
   }
 }
 async function findDocument(query, client) {
-  //refactor: instead of passing url, pass full query object
 
   const options = { original_url: 1, short_url: 1, _id: 0 };
   var doc;

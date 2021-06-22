@@ -47,5 +47,5 @@ jspm_packages
 # Output of 'npm pack'
 *.tgz
 
-#Adam Orr - custom .env
+#Adam Orr - custom .env private vars
 .env
